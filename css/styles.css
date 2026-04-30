@@ -4,24 +4,27 @@
    ========================================================================= */
 
 :root {
-  /* Палитра */
-  --bg-0: #0d0b1f;
-  --bg-1: #15132e;
-  --bg-2: #1c1a3d;
-  --card: #221f44;
-  --card-hi: #2a2750;
-  --border: #2f2c5a;
+  /* Палитра — разные тона синего, премиум-ночная */
+  --bg-0: #07142e;            /* глубокий navy */
+  --bg-1: #0c1d3d;
+  --bg-2: #142751;
+  --card: #15294f;
+  --card-hi: #1c3463;
+  --border: #243d72;
 
-  --text: #f4f1ff;
-  --text-mute: #9794c4;
-  --text-dim: #6e6b9e;
+  --text: #e6f0ff;
+  --text-mute: #93a8d0;
+  --text-dim: #6679a3;
 
-  --primary: #a78bfa;        /* основной фиолетовый неон */
-  --primary-deep: #7c5cbf;
-  --accent:  #f472b6;        /* розовый неон */
-  --teal:    #22d3ee;        /* бирюзовый */
-  --gold:    #fbbf24;
-  --green:   #34d399;
+  --primary: #60a5fa;          /* sky-400, основной */
+  --primary-deep: #3b82f6;     /* blue-500 */
+  --primary-light: #93c5fd;    /* sky-300 */
+  --accent:  #22d3ee;          /* cyan-400, акцент */
+  --accent-deep: #0891b2;      /* cyan-700 */
+  --indigo:  #818cf8;          /* для разнообразия */
+  --teal:    #2dd4bf;          /* teal-400 */
+  --gold:    #38bdf8;          /* вместо золотого — sky-светлее */
+  --green:   #06b6d4;          /* стало cyan вместо зелёного */
   --danger:  #f87171;
 
   /* Скругления */
@@ -31,8 +34,8 @@
 
   /* Тени */
   --shadow-card: 0 6px 24px rgba(0, 0, 0, 0.35);
-  --glow-primary: 0 0 18px rgba(167, 139, 250, 0.45);
-  --glow-accent:  0 0 18px rgba(244, 114, 182, 0.45);
+  --glow-primary: 0 0 18px rgba(96, 165, 250, 0.45);
+  --glow-accent:  0 0 18px rgba(34, 211, 238, 0.45);
 
   /* Гриды и отступы */
   --pad: 20px;
@@ -46,7 +49,7 @@
 html, body { height: 100%; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
-  background: radial-gradient(140% 80% at 50% 0%, #1d1b3e 0%, var(--bg-0) 65%) fixed;
+  background: radial-gradient(140% 80% at 50% 0%, #0e2a5a 0%, var(--bg-0) 65%) fixed;
   color: var(--text);
   font-size: 15px;
   line-height: 1.45;
@@ -105,10 +108,10 @@ html { -webkit-text-size-adjust: 100%; }
   align-items: center;
   gap: 6px;
   padding: 8px 12px;
-  background: linear-gradient(135deg, #f59e0b22, #ef444422);
-  border: 1px solid #f59e0b66;
+  background: linear-gradient(135deg, rgba(56,189,248,0.18), rgba(99,102,241,0.18));
+  border: 1px solid rgba(56,189,248,0.45);
   border-radius: 999px;
-  color: var(--gold);
+  color: var(--primary-light);
   font-weight: 700;
   font-size: 13px;
 }
@@ -275,15 +278,15 @@ html { -webkit-text-size-adjust: 100%; }
 .insight-card {
   margin-top: 22px;
   padding: 16px 18px;
-  background: linear-gradient(135deg, rgba(244,114,182,0.10), rgba(167,139,250,0.10));
-  border: 1px solid rgba(244,114,182,0.25);
+  background: linear-gradient(135deg, rgba(34,211,238,0.10), rgba(96,165,250,0.10));
+  border: 1px solid rgba(34,211,238,0.30);
   border-radius: var(--r-m);
   position: relative;
 }
 .insight-card__chip {
   display: inline-block;
   padding: 3px 10px;
-  background: rgba(244,114,182,0.15);
+  background: rgba(34,211,238,0.18);
   color: var(--accent);
   border-radius: 999px;
   font-size: 11px;
@@ -382,7 +385,7 @@ html { -webkit-text-size-adjust: 100%; }
 .med-card__chip {
   display: inline-block;
   padding: 3px 9px;
-  background: rgba(167,139,250,0.14);
+  background: rgba(96,165,250,0.14);
   color: var(--primary);
   border-radius: 999px;
   font-size: 11px;
@@ -406,8 +409,8 @@ html { -webkit-text-size-adjust: 100%; }
   position: absolute;
   top: 14px; right: 14px;
   padding: 3px 8px;
-  background: linear-gradient(135deg, var(--gold), #f59e0b);
-  color: #1a1505;
+  background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+  color: #04293a;
   border-radius: 999px;
   font-size: 10px;
   font-weight: 800;
@@ -476,7 +479,7 @@ html { -webkit-text-size-adjust: 100%; }
 .group-chip.is-active {
   color: var(--text);
   border-color: var(--primary);
-  background: linear-gradient(135deg, rgba(167,139,250,0.18), rgba(244,114,182,0.12));
+  background: linear-gradient(135deg, rgba(96,165,250,0.18), rgba(34,211,238,0.12));
   box-shadow: var(--glow-primary);
 }
 
@@ -484,8 +487,8 @@ html { -webkit-text-size-adjust: 100%; }
   margin-bottom: 14px;
   padding: 16px 18px;
   border-radius: var(--r-m);
-  background: linear-gradient(135deg, rgba(167,139,250,0.16), rgba(244,114,182,0.10));
-  border: 1px solid rgba(167,139,250,0.25);
+  background: linear-gradient(135deg, rgba(96,165,250,0.16), rgba(34,211,238,0.10));
+  border: 1px solid rgba(96,165,250,0.25);
 }
 .group-hero__title { font-size: 22px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.02em; }
 .group-hero__sub { color: var(--text-mute); font-size: 13px; }
@@ -550,7 +553,7 @@ html { -webkit-text-size-adjust: 100%; }
   border-radius: 4px;
   background: rgba(255,255,255,0.04);
 }
-.heatmap__cell--l1 { background: rgba(167,139,250,0.25); }
+.heatmap__cell--l1 { background: rgba(96,165,250,0.25); }
 .heatmap__cell--l2 { background: rgba(167,139,250,0.50); }
 .heatmap__cell--l3 { background: rgba(167,139,250,0.80); box-shadow: var(--glow-primary); }
 .heatmap__legend {
@@ -600,17 +603,17 @@ html { -webkit-text-size-adjust: 100%; }
   margin-top: 12px;
   padding: 8px 16px;
   border-radius: 999px;
-  background: rgba(167,139,250,0.10);
+  background: rgba(96,165,250,0.10);
   color: var(--primary);
   font-weight: 600;
   font-size: 12.5px;
-  border: 1px solid rgba(167,139,250,0.30);
+  border: 1px solid rgba(96,165,250,0.30);
 }
 
 .pro-card {
   margin: 18px 0;
   padding: 20px 20px 18px;
-  background: linear-gradient(135deg, #2a1a3d, #3a2058);
+  background: linear-gradient(135deg, #102a55, #163a72);
   border: 1px solid var(--accent);
   border-radius: var(--r-l);
   position: relative;
@@ -622,14 +625,14 @@ html { -webkit-text-size-adjust: 100%; }
   inset: -40% -10% auto auto;
   width: 220px; height: 220px;
   border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(244,114,182,0.32), transparent 70%);
+  background: radial-gradient(closest-side, rgba(34,211,238,0.32), transparent 70%);
   pointer-events: none;
 }
 .pro-card__chip {
   display: inline-block;
   padding: 3px 10px;
-  background: linear-gradient(135deg, var(--gold), #f59e0b);
-  color: #1a1505;
+  background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+  color: #04293a;
   border-radius: 999px;
   font-size: 10.5px;
   font-weight: 800;
@@ -654,7 +657,7 @@ html { -webkit-text-size-adjust: 100%; }
 .pro-card__btn {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, var(--accent), #ec4899);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
   color: #fff;
   font-weight: 700;
   font-size: 15px;
@@ -779,15 +782,25 @@ html { -webkit-text-size-adjust: 100%; }
   position: absolute;
   inset: 0;
   display: flex; align-items: center; justify-content: center;
-  gap: 6px;
+  pointer-events: none;
+}
+.orb-time__pill {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 9px 18px;
+  background: rgba(7, 20, 46, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
   font-variant-numeric: tabular-nums;
   font-weight: 700;
   font-size: 22px;
-  color: var(--text);
-  text-shadow: 0 2px 16px rgba(0,0,0,0.6);
-  pointer-events: none;
+  color: #cfe2ff;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.55);
 }
-.orb-time__sep { color: var(--text-dim); font-weight: 500; }
+.orb-time__sep { color: rgba(207, 226, 255, 0.45); font-weight: 500; font-size: 18px; }
 
 /* Scrubber */
 .player__scrubber {
@@ -864,7 +877,7 @@ html { -webkit-text-size-adjust: 100%; }
   color: #fff;
   font-size: 30px;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: var(--glow-primary), 0 8px 24px rgba(167,139,250,0.40);
+  box-shadow: var(--glow-primary), 0 8px 24px rgba(96,165,250,0.40);
   transition: transform 0.12s;
 }
 .player__play:active { transform: scale(0.94); }
@@ -887,7 +900,7 @@ html { -webkit-text-size-adjust: 100%; }
 .player__chip.is-active {
   border-color: var(--primary);
   color: var(--primary);
-  background: rgba(167,139,250,0.10);
+  background: rgba(96,165,250,0.10);
 }
 
 .player__hint {
@@ -948,7 +961,7 @@ html { -webkit-text-size-adjust: 100%; }
 .sheet__row.is-active {
   border-color: var(--primary);
   color: var(--primary);
-  background: rgba(167,139,250,0.10);
+  background: rgba(96,165,250,0.10);
 }
 .sheet__row--danger { color: var(--danger); }
 
