@@ -193,6 +193,7 @@ html { -webkit-text-size-adjust: 100%; }
   display: flex; flex-direction: column;
   padding-top: max(var(--top-safe), 16px);
   animation: fadeIn 0.2s ease both;
+  transition: background 0.45s ease;
 }
 .story-viewer__progress {
   display: flex; gap: 4px;
@@ -233,6 +234,10 @@ html { -webkit-text-size-adjust: 100%; }
   padding: 24px 32px;
   text-align: center;
 }
+@keyframes story-in-right { from { transform: translateX(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes story-in-left  { from { transform: translateX(-40px); opacity: 0; } to { transform: none; opacity: 1; } }
+.story-viewer__content.dir-next { animation: story-in-right 0.42s cubic-bezier(.2,.8,.2,1) both; }
+.story-viewer__content.dir-prev { animation: story-in-left  0.42s cubic-bezier(.2,.8,.2,1) both; }
 .story-viewer__big-emoji { font-size: 64px; margin-bottom: 24px; }
 .story-viewer__h { font-size: 26px; font-weight: 700; margin-bottom: 14px; }
 .story-viewer__p { font-size: 16px; line-height: 1.5; color: rgba(255,255,255,0.8); }
@@ -721,7 +726,8 @@ html { -webkit-text-size-adjust: 100%; }
 .player {
   position: fixed; inset: 0;
   z-index: 70;
-  background: radial-gradient(120% 80% at 50% 20%, #2a1f4f 0%, var(--bg-0) 70%);
+  /* Очень тёмный, чуть синеватый — для ночного режима */
+  background: radial-gradient(120% 80% at 50% 20%, #0c1d3d 0%, #050d1f 75%);
   display: flex; flex-direction: column;
   padding: max(var(--top-safe), 16px) var(--pad) max(env(safe-area-inset-bottom, 16px), 16px);
   animation: fadeIn 0.28s ease both;
@@ -747,7 +753,7 @@ html { -webkit-text-size-adjust: 100%; }
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 11px;
-  color: var(--primary);
+  color: rgba(147, 197, 253, 0.65);  /* приглушённый sky */
   font-weight: 700;
   margin-bottom: 6px;
 }
@@ -756,6 +762,7 @@ html { -webkit-text-size-adjust: 100%; }
   font-weight: 700;
   letter-spacing: -0.01em;
   line-height: 1.25;
+  color: rgba(230, 240, 255, 0.86);  /* мягкий, не белоснежный */
 }
 .player__posture {
   margin-top: 6px;
@@ -808,17 +815,17 @@ html { -webkit-text-size-adjust: 100%; }
   margin: 4px 4px 18px;
 }
 .player__progress-bg {
-  height: 4px;
-  background: rgba(255,255,255,0.10);
+  height: 3px;
+  background: rgba(255,255,255,0.07);
   border-radius: 2px;
   overflow: hidden;
 }
 .player__progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
+  background: linear-gradient(90deg, rgba(96,165,250,0.55), rgba(34,211,238,0.55));
   width: 0%;
   border-radius: 2px;
-  box-shadow: var(--glow-primary);
+  /* без glow — ночью не слепит */
   transition: width 0.1s linear;
 }
 .player__scrubber input[type="range"] {
@@ -833,16 +840,15 @@ html { -webkit-text-size-adjust: 100%; }
 }
 .player__scrubber input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none; appearance: none;
-  width: 18px; height: 18px;
+  width: 14px; height: 14px;
   border-radius: 50%;
-  background: var(--text);
-  box-shadow: 0 0 12px var(--primary);
+  background: rgba(207, 226, 255, 0.85);
   cursor: pointer;
 }
 .player__scrubber input[type="range"]::-moz-range-thumb {
-  width: 18px; height: 18px; border: 0;
-  border-radius: 50%; background: var(--text);
-  box-shadow: 0 0 12px var(--primary);
+  width: 14px; height: 14px; border: 0;
+  border-radius: 50%;
+  background: rgba(207, 226, 255, 0.85);
   cursor: pointer;
 }
 
@@ -853,7 +859,7 @@ html { -webkit-text-size-adjust: 100%; }
   margin-bottom: 18px;
 }
 .player__btn {
-  width: 56px; height: 56px;
+  width: 64px; height: 64px;
   border-radius: 50%;
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.10);
@@ -863,21 +869,31 @@ html { -webkit-text-size-adjust: 100%; }
   transition: transform 0.12s, background 0.2s;
 }
 .player__btn:active { transform: scale(0.92); background: rgba(255,255,255,0.12); }
-.player__btn-arrow { font-size: 30px; line-height: 1; }
+.player__btn-arrow {
+  font-size: 46px;
+  line-height: 1;
+  font-weight: 300;
+}
 .player__btn-num {
   position: absolute;
-  font-size: 11px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -42%);
+  font-size: 12px;
   font-weight: 800;
   color: var(--text);
+  letter-spacing: 0.02em;
+  pointer-events: none;
 }
 .player__play {
   width: 80px; height: 80px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  color: #fff;
+  /* приглушённый бледно-синий, не слепит ночью */
+  background: linear-gradient(135deg, rgba(96, 165, 250, 0.42), rgba(34, 211, 238, 0.42));
+  color: rgba(230, 240, 255, 0.95);
   font-size: 30px;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: var(--glow-primary), 0 8px 24px rgba(96,165,250,0.40);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  /* без яркого glow */
   transition: transform 0.12s;
 }
 .player__play:active { transform: scale(0.94); }
@@ -890,29 +906,29 @@ html { -webkit-text-size-adjust: 100%; }
 .player__chip {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 9px 14px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
   border-radius: 999px;
-  color: var(--text);
+  color: rgba(230, 240, 255, 0.75);
   font-size: 12.5px;
   font-weight: 600;
 }
 .player__chip.is-active {
-  border-color: var(--primary);
-  color: var(--primary);
-  background: rgba(96,165,250,0.10);
+  border-color: rgba(96, 165, 250, 0.50);
+  color: rgba(147, 197, 253, 0.90);
+  background: rgba(96, 165, 250, 0.08);
 }
 
 .player__hint {
   text-align: center;
-  color: var(--primary);
+  color: rgba(147, 197, 253, 0.55);
   font-size: 12px;
   height: 18px;
   margin-top: 6px;
   opacity: 0;
   transition: opacity 0.4s;
 }
-.player.is-playing .player__hint { opacity: 0.85; }
+.player.is-playing .player__hint { opacity: 0.7; }
 
 /* =========================================================================
    SHEET (sleep timer и т.д.)
