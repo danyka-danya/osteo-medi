@@ -16,7 +16,7 @@
   <link rel="apple-touch-icon" href="assets/icon-192.png">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 
-  <link rel="stylesheet" href="css/styles.css?v=3">
+  <link rel="stylesheet" href="css/styles.css?v=4">
 </head>
 
 <body>
@@ -188,14 +188,6 @@
           </div>
           <span class="row-card__link row-card__link--muted">→</span>
         </div>
-
-        <button class="row-card row-card--danger" id="reset-progress-btn">
-          <span class="row-card__icon">🗑</span>
-          <div class="row-card__body">
-            <p class="row-card__title">Сбросить прогресс</p>
-            <p class="row-card__sub">Очистить локальные данные</p>
-          </div>
-        </button>
       </div>
 
       <div class="bottom-spacer"></div>
@@ -254,9 +246,11 @@
     <div class="orb-wrap">
       <canvas class="orb-canvas" id="orb-canvas" aria-hidden="true"></canvas>
       <div class="orb-time">
-        <span id="player-elapsed">0:00</span>
-        <span class="orb-time__sep">/</span>
-        <span id="player-total">10:00</span>
+        <div class="orb-time__pill">
+          <span id="player-elapsed">0:00</span>
+          <span class="orb-time__sep">/</span>
+          <span id="player-total">10:00</span>
+        </div>
       </div>
     </div>
 
@@ -328,11 +322,11 @@
     </div>
   </div>
 
-  <script src="js/data.js?v=3"></script>
-  <script src="js/state.js?v=3"></script>
-  <script src="js/orb.js?v=3"></script>
-  <script src="js/stories.js?v=3"></script>
-  <script src="js/player.js?v=3"></script>
-  <script src="js/app.js?v=3"></script>
+  <script src="js/data.js?v=4"></script>
+  <script src="js/state.js?v=4"></script>
+  <script src="js/orb.js?v=4"></script>
+  <script src="js/stories.js?v=4"></script>
+  <script src="js/player.js?v=4"></script>
+  <script src="js/app.js?v=4"></script>
 </body>
 </html>
