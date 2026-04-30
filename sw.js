@@ -1,5 +1,5 @@
 /* Простой кешер для оффлайн-просмотра. Не критичен, но полезен на iOS. */
-const CACHE = "osteo-v1";
+const CACHE = "osteo-v3";
 const ASSETS = [
   "./",
   "./index.html",
