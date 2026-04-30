@@ -42,6 +42,7 @@
 
 /* ----- Reset ----- */
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+[hidden] { display: none !important; }   /* фикс: класс с display:flex перекрывал атрибут hidden */
 html, body { height: 100%; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
