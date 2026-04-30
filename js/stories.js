@@ -10,6 +10,7 @@
   let progressStartTs = 0;
   let progressElapsed = 0;
   let isPaused = false;
+  let lastDir = "next";   // направление последнего перехода: "next" | "prev"
 
   // ----- Bar -----
   function renderBar() {
@@ -31,7 +32,8 @@
   }
 
   // ----- Viewer -----
-  function open(idx) {
+  function open(idx, dir = "next") {
+    lastDir = dir;
     activeStoryIdx = idx;
     activeSlideIdx = 0;
     isPaused = false;
@@ -63,6 +65,15 @@
 
     const viewer = document.getElementById("story-viewer");
     viewer.style.background = slide.bg || "#111";
+
+    // Slide-анимация контента в нужном направлении (перезапуск через reflow)
+    const content = viewer.querySelector(".story-viewer__content");
+    if (content) {
+      content.classList.remove("dir-next", "dir-prev");
+      // force reflow
+      void content.offsetWidth;
+      content.classList.add(lastDir === "prev" ? "dir-prev" : "dir-next");
+    }
 
     const prog = document.getElementById("story-progress");
     prog.innerHTML = "";
@@ -108,19 +119,20 @@
 
   function advance(dir) {
     if (activeStoryIdx === null) return;
+    lastDir = dir > 0 ? "next" : "prev";
     const story = window.STORIES[activeStoryIdx];
     const next = activeSlideIdx + dir;
     if (next >= story.slides.length) {
       // следующий стори
       if (activeStoryIdx < window.STORIES.length - 1) {
-        open(activeStoryIdx + 1);
+        open(activeStoryIdx + 1, "next");
       } else {
         close();
       }
     } else if (next < 0) {
       // предыдущий стори
       if (activeStoryIdx > 0) {
-        open(activeStoryIdx - 1);
+        open(activeStoryIdx - 1, "prev");
         // сразу на последний слайд
         activeSlideIdx = window.STORIES[activeStoryIdx].slides.length - 1;
         renderViewer();
@@ -138,7 +150,7 @@
     if (activeStoryIdx === null) return;
     const next = activeStoryIdx + dir;
     if (next >= 0 && next < window.STORIES.length) {
-      open(next);
+      open(next, dir > 0 ? "next" : "prev");
     } else if (dir > 0) {
       close();
     }

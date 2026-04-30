@@ -26,24 +26,6 @@
     document.querySelector(".greeting__sub").textContent = g.sub;
     document.getElementById("streak-num").textContent = OS.state.data.streakDays || 0;
 
-    // Mood
-    const moodRow = document.getElementById("mood-row");
-    moodRow.innerHTML = "";
-    window.MOODS.forEach(m => {
-      const btn = document.createElement("button");
-      btn.className = "mood__btn" + (OS.state.data.lastMood === m.id ? " is-selected" : "");
-      btn.innerHTML = `<span class="mood__btn-emoji">${m.emoji}</span><span class="mood__btn-lbl">${m.label}</span>`;
-      btn.addEventListener("click", () => {
-        OS.state.setMood(m.id);
-        renderHome();
-        if (m.suggest) {
-          OS.toast(`Подобрал: ${OS.findMeditation(m.suggest)?.title || "практика"}`);
-          setTimeout(() => window.Player.open(m.suggest), 700);
-        }
-      });
-      moodRow.appendChild(btn);
-    });
-
     // Daily tip — детерминированный по дате (стабильный за день)
     const day = new Date().toISOString().slice(0,10);
     const tipIdx = day.split("").reduce((a,c) => a + c.charCodeAt(0), 0) % window.DAILY_TIPS.length;

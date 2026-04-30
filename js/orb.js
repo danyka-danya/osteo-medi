@@ -63,12 +63,12 @@
       ctx.fillStyle = "rgba(7, 20, 46, 0.20)";
       ctx.fillRect(0, 0, w, h);
 
-      // ---- Внешнее свечение (soft halo) ----
+      // ---- Внешнее свечение (soft halo, ночной режим — приглушённый) ----
       const haloR = breathR * 2.4;
       const halo = ctx.createRadialGradient(cx, cy, breathR * 0.4, cx, cy, haloR);
-      halo.addColorStop(0,    "rgba(96,165,250, 0.30)");
-      halo.addColorStop(0.45, "rgba(34,211,238, 0.16)");
-      halo.addColorStop(0.85, "rgba(129,140,248, 0.05)");
+      halo.addColorStop(0,    "rgba(96,165,250, 0.20)");
+      halo.addColorStop(0.45, "rgba(34,211,238, 0.10)");
+      halo.addColorStop(0.85, "rgba(129,140,248, 0.03)");
       halo.addColorStop(1,    "rgba(0,0,0,0)");
       ctx.globalCompositeOperation = "lighter";
       ctx.fillStyle = halo;
@@ -82,10 +82,10 @@
         const r = s.r + Math.sin(phase * 0.4 + s.twinkle) * 4;
         const x = cx + Math.cos(s.a) * r;
         const y = cy + Math.sin(s.a) * r;
-        const alpha = 0.30 + 0.45 * (Math.sin(phase + s.twinkle) * 0.5 + 0.5);
+        const alpha = 0.20 + 0.30 * (Math.sin(phase + s.twinkle) * 0.5 + 0.5);
         // hue колеблется в диапазоне синих/бирюзовых: 190..240
         const hue = 195 + ((phase * 6 + s.hue * 60) % 50);
-        ctx.fillStyle = `hsla(${hue}, 80%, 70%, ${alpha})`;
+        ctx.fillStyle = `hsla(${hue}, 65%, 65%, ${alpha})`;
         ctx.beginPath();
         ctx.arc(x, y, s.size, 0, Math.PI * 2);
         ctx.fill();
@@ -99,9 +99,9 @@
       ];
       for (const c of colors) {
         const grad = ctx.createRadialGradient(cx + c.dx, cy + c.dy, 0, cx + c.dx, cy + c.dy, c.r);
-        grad.addColorStop(0,   `hsla(${c.h}, 85%, 60%, 0.42)`);
-        grad.addColorStop(0.6, `hsla(${c.h}, 70%, 45%, 0.14)`);
-        grad.addColorStop(1,   `hsla(${c.h}, 60%, 30%, 0)`);
+        grad.addColorStop(0,   `hsla(${c.h}, 70%, 55%, 0.30)`);
+        grad.addColorStop(0.6, `hsla(${c.h}, 60%, 40%, 0.10)`);
+        grad.addColorStop(1,   `hsla(${c.h}, 55%, 25%, 0)`);
         ctx.fillStyle = grad;
         ctx.beginPath();
         ctx.arc(cx + c.dx, cy + c.dy, c.r, 0, Math.PI * 2);
