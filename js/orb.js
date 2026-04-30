@@ -60,15 +60,15 @@
       const breathR = baseR * (0.92 + breathT * 0.18);
 
       // ---- ОЧИСТКА: лёгкий хвост (motion blur) ----
-      ctx.fillStyle = "rgba(13, 11, 31, 0.18)";
+      ctx.fillStyle = "rgba(7, 20, 46, 0.20)";
       ctx.fillRect(0, 0, w, h);
 
       // ---- Внешнее свечение (soft halo) ----
       const haloR = breathR * 2.4;
       const halo = ctx.createRadialGradient(cx, cy, breathR * 0.4, cx, cy, haloR);
-      halo.addColorStop(0,    "rgba(167,139,250, 0.35)");
-      halo.addColorStop(0.45, "rgba(244,114,182, 0.18)");
-      halo.addColorStop(0.85, "rgba(34,211,238, 0.05)");
+      halo.addColorStop(0,    "rgba(96,165,250, 0.30)");
+      halo.addColorStop(0.45, "rgba(34,211,238, 0.16)");
+      halo.addColorStop(0.85, "rgba(129,140,248, 0.05)");
       halo.addColorStop(1,    "rgba(0,0,0,0)");
       ctx.globalCompositeOperation = "lighter";
       ctx.fillStyle = halo;
@@ -79,49 +79,48 @@
       // ---- Звёзды (плавающие частицы) ----
       for (const s of stars) {
         s.a += s.speed * (isPlaying ? 1 : 0.4);
-        // лёгкий drift по радиусу
         const r = s.r + Math.sin(phase * 0.4 + s.twinkle) * 4;
         const x = cx + Math.cos(s.a) * r;
         const y = cy + Math.sin(s.a) * r;
-        const alpha = 0.4 + 0.6 * (Math.sin(phase + s.twinkle) * 0.5 + 0.5);
-        // переливы: hue растёт со временем
-        const hue = (phase * 12 + s.hue * 360) % 360;
-        ctx.fillStyle = `hsla(${hue}, 90%, 75%, ${alpha})`;
+        const alpha = 0.30 + 0.45 * (Math.sin(phase + s.twinkle) * 0.5 + 0.5);
+        // hue колеблется в диапазоне синих/бирюзовых: 190..240
+        const hue = 195 + ((phase * 6 + s.hue * 60) % 50);
+        ctx.fillStyle = `hsla(${hue}, 80%, 70%, ${alpha})`;
         ctx.beginPath();
         ctx.arc(x, y, s.size, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // ---- Основной orb (3 цветных слоя со смещением, эффект «неона») ----
+      // ---- Основной orb (3 цветных слоя со смещением — оттенки синего) ----
       const colors = [
-        { h: 270 + Math.sin(phase) * 25, dx: -breathR * 0.08, dy: 0, r: breathR * 0.95 },  // фиолет
-        { h: 320 + Math.sin(phase + 1) * 25, dx: breathR * 0.08, dy: -breathR * 0.04, r: breathR * 0.85 }, // розовый
-        { h: 190 + Math.sin(phase + 2) * 25, dx: 0, dy: breathR * 0.06, r: breathR * 0.75 }, // бирюза
+        { h: 215 + Math.sin(phase)         * 8,  dx: -breathR * 0.08, dy: 0,                 r: breathR * 0.95 }, // sky/blue
+        { h: 195 + Math.sin(phase + 1)     * 8,  dx:  breathR * 0.08, dy: -breathR * 0.04,   r: breathR * 0.85 }, // cyan
+        { h: 230 + Math.sin(phase + 2)     * 8,  dx: 0,               dy:  breathR * 0.06,   r: breathR * 0.75 }, // indigo
       ];
       for (const c of colors) {
         const grad = ctx.createRadialGradient(cx + c.dx, cy + c.dy, 0, cx + c.dx, cy + c.dy, c.r);
-        grad.addColorStop(0,   `hsla(${c.h}, 95%, 70%, 0.55)`);
-        grad.addColorStop(0.6, `hsla(${c.h}, 80%, 55%, 0.18)`);
-        grad.addColorStop(1,   `hsla(${c.h}, 70%, 40%, 0)`);
+        grad.addColorStop(0,   `hsla(${c.h}, 85%, 60%, 0.42)`);
+        grad.addColorStop(0.6, `hsla(${c.h}, 70%, 45%, 0.14)`);
+        grad.addColorStop(1,   `hsla(${c.h}, 60%, 30%, 0)`);
         ctx.fillStyle = grad;
         ctx.beginPath();
         ctx.arc(cx + c.dx, cy + c.dy, c.r, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // ---- Тонкое внутреннее ядро ----
+      // ---- Тонкое внутреннее ядро (мягкое, не слепит) ----
       const core = ctx.createRadialGradient(cx, cy - breathR * 0.1, 0, cx, cy, breathR * 0.55);
-      core.addColorStop(0,    "rgba(255,255,255, 0.55)");
-      core.addColorStop(0.4,  "rgba(255,255,255, 0.10)");
-      core.addColorStop(1,    "rgba(255,255,255, 0)");
+      core.addColorStop(0,    "rgba(180, 220, 255, 0.22)");
+      core.addColorStop(0.5,  "rgba(120, 180, 240, 0.06)");
+      core.addColorStop(1,    "rgba(0,0,0, 0)");
       ctx.fillStyle = core;
       ctx.beginPath();
       ctx.arc(cx, cy, breathR * 0.55, 0, Math.PI * 2);
       ctx.fill();
 
-      // ---- Ободок-сияние ----
+      // ---- Ободок-сияние (синий) ----
       ctx.lineWidth = 2;
-      ctx.strokeStyle = `hsla(${280 + Math.sin(phase * 0.7) * 40}, 90%, 70%, ${0.25 + breathT * 0.15})`;
+      ctx.strokeStyle = `hsla(${210 + Math.sin(phase * 0.7) * 20}, 80%, 65%, ${0.22 + breathT * 0.13})`;
       ctx.beginPath();
       ctx.arc(cx, cy, breathR * 1.05, 0, Math.PI * 2);
       ctx.stroke();

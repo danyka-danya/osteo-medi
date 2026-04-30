@@ -249,18 +249,6 @@
       }
     };
 
-    document.getElementById("reset-progress-btn").onclick = async () => {
-      const ok = await OS.confirm(
-        "Сбросить прогресс?",
-        "Все ваши практики, баллы и состояния осознанности будут удалены. Действие необратимо.",
-        { confirmText: "Сбросить", danger: true }
-      );
-      if (ok) {
-        OS.state.resetAll();
-        OS.toast("Прогресс сброшен");
-        renderHome(); renderProgressTab(); renderProfileTab(); window.Stories?.renderBar();
-      }
-    };
   }
 
   // ---------- helpers ----------

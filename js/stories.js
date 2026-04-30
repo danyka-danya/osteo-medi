@@ -133,6 +133,17 @@
     }
   }
 
+  // Прыжок к следующему/предыдущему стори (при свайпе)
+  function jumpStory(dir) {
+    if (activeStoryIdx === null) return;
+    const next = activeStoryIdx + dir;
+    if (next >= 0 && next < window.STORIES.length) {
+      open(next);
+    } else if (dir > 0) {
+      close();
+    }
+  }
+
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, c => ({
       "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
@@ -146,12 +157,43 @@
     document.getElementById("story-tap-l").addEventListener("click", () => advance(-1));
     document.getElementById("story-tap-r").addEventListener("click", () => advance(+1));
 
-    // hold to pause
+    // hold to pause + горизонтальный свайп для перехода между стори
     const viewer = document.getElementById("story-viewer");
     const setPaused = (v) => { isPaused = v; };
-    viewer.addEventListener("touchstart", () => setPaused(true), { passive: true });
-    viewer.addEventListener("touchend", () => setPaused(false));
+    let touchStartX = 0, touchStartY = 0, touchStartTs = 0;
+
+    viewer.addEventListener("touchstart", (e) => {
+      const t = e.touches[0];
+      touchStartX = t.clientX;
+      touchStartY = t.clientY;
+      touchStartTs = performance.now();
+      setPaused(true);
+    }, { passive: true });
+
+    viewer.addEventListener("touchend", (e) => {
+      setPaused(false);
+      const t = e.changedTouches[0];
+      const dx = t.clientX - touchStartX;
+      const dy = t.clientY - touchStartY;
+      const dt = performance.now() - touchStartTs;
+      const SWIPE_X = 60;     // мин. горизонтальное расстояние
+      const SWIPE_Y_MAX = 80; // макс. вертикальное отклонение
+      const SWIPE_DT = 600;   // макс. длительность для свайпа
+      if (Math.abs(dx) > SWIPE_X && Math.abs(dy) < SWIPE_Y_MAX && dt < SWIPE_DT) {
+        if (dx < 0) jumpStory(+1);  // свайп влево → следующий стори
+        else        jumpStory(-1);  // свайп вправо → предыдущий
+      }
+    });
     viewer.addEventListener("touchcancel", () => setPaused(false));
+
+    // Свайп вниз — закрыть (как в Instagram)
+    viewer.addEventListener("touchend", (e) => {
+      const t = e.changedTouches[0];
+      const dx = t.clientX - touchStartX;
+      const dy = t.clientY - touchStartY;
+      if (dy > 100 && Math.abs(dx) < 60) close();
+    });
+
     viewer.addEventListener("mousedown", () => setPaused(true));
     viewer.addEventListener("mouseup", () => setPaused(false));
     viewer.addEventListener("mouseleave", () => setPaused(false));
